@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
+  "packages": [
+    "flutter@3.27.1-sdk-links",
+    "clang@latest",
+    "cmake@latest",
+    "ninja@latest",
+    "pkg-config@latest",
+    "gtk3@latest",
+    "chromium@latest",
+    "zulu21@latest"
+  ],
+  "env": {
+    "CHROME_EXECUTABLE": "chromium"
+  },
+  "shell": {
+    "init_hook": [
+      "nix-shell -p gtk3 pkg-config"
+    ],
+    "scripts": {}
+  }
+}
