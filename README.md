@@ -1,3 +1,3 @@
-# todone
+# ToDone
 
-Anothe FOSS ToDo app
+Another FOSS ToDo app
