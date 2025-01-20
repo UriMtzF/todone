@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/view/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  await LocaleSettings.useDeviceLocale();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
   runApp(TranslationProvider(child: MainApp(savedThemeMode: savedThemeMode)));
 }
@@ -28,11 +30,7 @@ class MainApp extends StatelessWidget {
       initial: savedThemeMode ?? AdaptiveThemeMode.dark,
       builder: (theme, darkTheme) {
         return MaterialApp(
-          home: const Scaffold(
-            body: Center(
-              child: Text('Hello World!'),
-            ),
-          ),
+          home: const HomePage(),
           theme: theme,
           darkTheme: darkTheme,
           locale: TranslationProvider.of(context).flutterLocale,

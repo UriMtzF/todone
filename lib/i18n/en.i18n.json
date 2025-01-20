@@ -1,3 +1,6 @@
 {
-  "hello": "Hello"
+  "navbar": {
+    "list": "List",
+    "profile": "Profile"
+  }
 }
