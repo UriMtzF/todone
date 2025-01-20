@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   go_router: ^14.6.3
   slang: ^4.4.1
   slang_flutter: ^4.4.0
