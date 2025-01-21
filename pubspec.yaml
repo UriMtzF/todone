@@ -15,6 +15,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   go_router: ^14.6.3
+  shared_preferences: ^2.3.5
   slang: ^4.4.1
   slang_flutter: ^4.4.0
   universal_platform: ^1.1.0

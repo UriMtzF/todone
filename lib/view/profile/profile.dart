@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/util/shared_preferences.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -40,10 +41,14 @@ class Profile extends StatelessWidget {
                       for (final lang in AppLocaleUtils.supportedLocales)
                         MenuItemButton(
                           child: Text(lang.languageCode),
-                          onPressed: () {
-                            LocaleSettings.setLocale(
+                          onPressed: () async {
+                            final prefs = await getPreferences();
+                            await prefs.setString('lang', lang.languageCode);
+                            await LocaleSettings.setLocale(
                               AppLocale.values.firstWhere(
-                                (locale) => locale.flutterLocale == lang,
+                                (locale) =>
+                                    locale.flutterLocale.languageCode ==
+                                    lang.languageCode,
                               ),
                             );
                           },

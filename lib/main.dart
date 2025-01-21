@@ -3,17 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/util/shared_preferences.dart';
 import 'package:todone/view/home.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
-  await LocaleSettings.useDeviceLocale();
   runApp(TranslationProvider(child: const MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  String lang = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadPreferences();
+  }
+
+  Future<void> loadPreferences() async {
+    final prefs = await getPreferences();
+    lang = prefs.getString('lang') ??
+        WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    await LocaleSettings.setLocaleRaw(lang);
+  }
 
   @override
   Widget build(BuildContext context) {
