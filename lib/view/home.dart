@@ -19,11 +19,11 @@ class _HomePageState extends State<HomePage> {
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.list),
-            label: t.navbar.list,
+            label: context.t.navbar.list,
           ),
           NavigationDestination(
             icon: const Icon(Icons.person),
-            label: t.navbar.profile,
+            label: context.t.navbar.profile,
           ),
         ],
         selectedIndex: currentPageIndex,

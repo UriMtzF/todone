@@ -2,5 +2,12 @@
   "navbar": {
     "list": "Lista",
     "profile": "Perfil"
+  },
+  "profile": {
+    "hello": "¡Hola $name!",
+    "settings": {
+      "darkTheme": "Tema oscuro",
+      "language": "Idioma"
+    }
   }
 }

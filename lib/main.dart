@@ -9,25 +9,27 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await LocaleSettings.useDeviceLocale();
-  final savedThemeMode = await AdaptiveTheme.getThemeMode();
-  runApp(TranslationProvider(child: MainApp(savedThemeMode: savedThemeMode)));
+  runApp(TranslationProvider(child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key, this.savedThemeMode});
-  final AdaptiveThemeMode? savedThemeMode;
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData.light().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan[700]!),
+      light: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorSchemeSeed: Colors.cyan[700],
       ),
-      dark: ThemeData.light().copyWith(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan[700]!),
+      dark: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.cyan[700],
       ),
       debugShowFloatingThemeButton: true,
-      initial: savedThemeMode ?? AdaptiveThemeMode.dark,
+      initial: AdaptiveThemeMode.dark,
       builder: (theme, darkTheme) {
         return MaterialApp(
           home: const HomePage(),
