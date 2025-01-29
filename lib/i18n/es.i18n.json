@@ -9,5 +9,8 @@
       "darkTheme": "Tema oscuro",
       "language": "Idioma"
     }
+  },
+  "list": {
+    "noItems": "No hay tareas en tu lista. Intenta añadir una usando el botón +"
   }
 }

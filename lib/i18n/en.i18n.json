@@ -9,5 +9,8 @@
       "darkTheme": "Dark theme",
       "language": "Language"
     }
+  },
+  "list": {
+    "noItems": "No items in your list. Try adding one using the + button"
   }
 }

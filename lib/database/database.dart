@@ -12,6 +12,18 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onUpgrade: (m, from, to) async {
+        for (final table in allTables) {
+          await m.deleteTable(table.actualTableName);
+          await m.createAll();
+        }
+      },
+    );
+  }
+
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'todone_db',
