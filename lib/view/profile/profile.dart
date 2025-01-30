@@ -66,6 +66,23 @@ class Profile extends StatelessWidget {
                     },
                   ),
                 ),
+                const Divider(),
+                ListTile(
+                  title: Text(context.t.profile.settings.about),
+                  trailing: IconButton(
+                    onPressed: () => showAboutDialog(
+                      context: context,
+                      applicationName: 'ToDone',
+                      applicationIcon: CircleAvatar(
+                        child: Image.asset(
+                          'assets/logo.png',
+                        ),
+                      ),
+                      applicationLegalese: 'ToDone ${DateTime.now().year}',
+                    ),
+                    icon: const Icon(Icons.info),
+                  ),
+                ),
               ],
             ),
           ),

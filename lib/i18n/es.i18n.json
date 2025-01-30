@@ -7,7 +7,8 @@
     "hello": "¡Hola $name!",
     "settings": {
       "darkTheme": "Tema oscuro",
-      "language": "Idioma"
+      "language": "Idioma",
+      "about": "Acerca de"
     }
   },
   "list": {
