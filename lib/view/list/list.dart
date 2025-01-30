@@ -11,10 +11,7 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  void deleteTodo(
-    AsyncSnapshot<List<TodoItem>> snapshot,
-    int index,
-  ) {
+  void updateState() {
     setState(() {});
   }
 
@@ -43,11 +40,7 @@ class _TaskListState extends State<TaskList> {
                   itemBuilder: (context, index) {
                     return TodoTile(
                       todoItem: snapshot.data![index],
-                      onDelete: (context) {
-                        setState(() {
-                          database.deleteTodo(snapshot.data![index].id);
-                        });
-                      },
+                      updateState: updateState,
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(),

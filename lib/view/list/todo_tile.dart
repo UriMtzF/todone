@@ -4,9 +4,13 @@ import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
 
 class TodoTile extends StatefulWidget {
-  const TodoTile({required this.todoItem, required this.onDelete, super.key});
+  const TodoTile({
+    required this.todoItem,
+    required this.updateState,
+    super.key,
+  });
   final TodoItem todoItem;
-  final SlidableActionCallback onDelete;
+  final void Function() updateState;
 
   @override
   State<TodoTile> createState() => _TodoTileState();
@@ -28,7 +32,10 @@ class _TodoTileState extends State<TodoTile> {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: widget.onDelete,
+            onPressed: (context) {
+              database.deleteTodo(todoItem.id);
+              widget.updateState();
+            },
             icon: Icons.delete,
             backgroundColor: Colors.red,
           ),
@@ -41,7 +48,16 @@ class _TodoTileState extends State<TodoTile> {
           borderRadius: BorderRadius.circular(5),
         ),
         child: ListTile(
-          leading: Checkbox(value: todoItem.completed, onChanged: null),
+          leading: Checkbox(
+            value: todoItem.completed,
+            onChanged: (value) async {
+              await database.updateDone(todoItem.id);
+              setState(() {
+                todoItem = todoItem.copyWith(completed: value);
+              });
+              widget.updateState();
+            },
+          ),
           title: Text(todoItem.title),
           subtitle: todoItem.due != null
               ? Text('${context.t.list.dueDate}: ${todoItem.due}')
