@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/view/list/todo_tile.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
@@ -10,7 +11,13 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  final database = AppDatabase();
+  void deleteTodo(
+    AsyncSnapshot<List<TodoItem>> snapshot,
+    int index,
+  ) {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -29,11 +36,22 @@ class _TaskListState extends State<TaskList> {
                 child: Text(context.t.list.noItems),
               )
             else
-              ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Text(snapshot.data![index].title);
-                },
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: ListView.separated(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return TodoTile(
+                      todoItem: snapshot.data![index],
+                      onDelete: (context) {
+                        setState(() {
+                          database.deleteTodo(snapshot.data![index].id);
+                        });
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) => const Divider(),
+                ),
               ),
             Positioned(
               bottom: 10,

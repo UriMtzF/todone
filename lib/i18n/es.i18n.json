@@ -11,6 +11,7 @@
     }
   },
   "list": {
-    "noItems": "No hay tareas en tu lista. Intenta añadir una usando el botón +"
+    "noItems": "No hay tareas en tu lista. Intenta añadir una usando el botón +",
+    "dueDate": "Vencimiento"
   }
 }

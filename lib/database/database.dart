@@ -10,7 +10,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
@@ -29,4 +29,10 @@ class AppDatabase extends _$AppDatabase {
       name: 'todone_db',
     );
   }
+
+  Future<void> deleteTodo(String id) async {
+    await (delete(todoItems)..where((item) => item.id.equals(id))).go();
+  }
 }
+
+final AppDatabase database = AppDatabase();

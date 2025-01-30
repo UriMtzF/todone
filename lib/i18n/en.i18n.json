@@ -11,6 +11,7 @@
     }
   },
   "list": {
-    "noItems": "No items in your list. Try adding one using the + button"
+    "noItems": "No items in your list. Try adding one using the + button",
+    "dueDate": "Due date"
   }
 }
