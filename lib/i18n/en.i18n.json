@@ -13,6 +13,12 @@
   },
   "list": {
     "noItems": "No items in your list. Try adding one using the + button",
-    "dueDate": "Due date"
+    "dueDate": "Due date",
+    "done": "Done tasks",
+    "deleteDialog": {
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "content": "Are you sure you want to delete all done tasks?"
+    }
   }
 }

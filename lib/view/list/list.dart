@@ -26,6 +26,12 @@ class _TaskListState extends State<TaskList> {
           );
         }
 
+        // Separate active and completed tasks
+        final activeTasks =
+            snapshot.data!.where((item) => !item.completed).toList();
+        final completedTasks =
+            snapshot.data!.where((item) => item.completed).toList();
+
         return Stack(
           children: [
             if (snapshot.data!.isEmpty)
@@ -35,15 +41,51 @@ class _TaskListState extends State<TaskList> {
             else
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: ListView.separated(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return TodoTile(
-                      todoItem: snapshot.data![index],
-                      updateState: updateState,
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
+                child: ListView(
+                  children: [
+                    if (completedTasks.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      ExpansionTile(
+                        title: Text(
+                          '${context.t.list.done} (${completedTasks.length})',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        leading: IconButton(
+                          onPressed: () {
+                            showDeleteConfirmation(context);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
+                        children: completedTasks
+                            .map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  bottom: 8,
+                                ),
+                                child: TodoTile(
+                                  todoItem: item,
+                                  updateState: updateState,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                    ...activeTasks.map(
+                      (item) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: TodoTile(
+                          todoItem: item,
+                          updateState: updateState,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             Positioned(
@@ -56,10 +98,43 @@ class _TaskListState extends State<TaskList> {
                           title: 'Otra tarea de prueba',
                         ),
                       );
-
                   setState(() {});
                 },
                 child: const Icon(Icons.add),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showDeleteConfirmation(BuildContext context) {
+    // Type of showDialog cannot be set
+    // ignore: inference_failure_on_function_invocation
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(context.t.list.deleteDialog.content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(context.t.list.deleteDialog.cancel),
+            ),
+            TextButton(
+              onPressed: () async {
+                await database.deleteDoneTodo();
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  setState(() {});
+                }
+              },
+              child: Text(
+                context.t.list.deleteDialog.delete,
+                style: const TextStyle(color: Colors.red),
               ),
             ),
           ],

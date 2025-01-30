@@ -34,6 +34,11 @@ class AppDatabase extends _$AppDatabase {
     await (delete(todoItems)..where((item) => item.id.equals(id))).go();
   }
 
+  Future<void> deleteDoneTodo() async {
+    await (delete(todoItems)..where((item) => item.completed.equals(true)))
+        .go();
+  }
+
   Future<void> updateDone(String id) async {
     final task = await (select(todoItems)..where((item) => item.id.equals(id)))
         .getSingle();

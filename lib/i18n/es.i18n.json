@@ -13,6 +13,12 @@
   },
   "list": {
     "noItems": "No hay tareas en tu lista. Intenta añadir una usando el botón +",
-    "dueDate": "Vencimiento"
+    "dueDate": "Vencimiento",
+    "done": "Tareas completadas",
+    "deleteDialog": {
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "content": "¿Estás seguro que deseas eliminar todas las tareas hechas?"
+    }
   }
 }
