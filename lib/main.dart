@@ -48,7 +48,6 @@ class _MainAppState extends State<MainApp> {
         brightness: Brightness.dark,
         colorSchemeSeed: Colors.cyan[700],
       ),
-      debugShowFloatingThemeButton: true,
       initial: AdaptiveThemeMode.dark,
       builder: (theme, darkTheme) {
         return MaterialApp(
