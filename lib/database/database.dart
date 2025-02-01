@@ -1,5 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:todone/database/connection/connection.dart' as impl;
 import 'package:todone/database/id.dart';
 import 'package:todone/database/todo_items.dart';
 
@@ -7,7 +10,31 @@ part 'database.g.dart';
 
 @DriftDatabase(tables: [TodoItems])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase([QueryExecutor? e])
+      : super(
+          e ??
+              driftDatabase(
+                name: 'todone_db',
+                native: const DriftNativeOptions(
+                  databaseDirectory: getApplicationSupportDirectory,
+                ),
+                web: DriftWebOptions(
+                  sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+                  driftWorker: Uri.parse('drift_worker.js'),
+                  onResult: (result) {
+                    if (result.missingFeatures.isNotEmpty) {
+                      debugPrint(
+                        'Using ${result.chosenImplementation}'
+                        ' due to unsupported '
+                        'browser features: ${result.missingFeatures}',
+                      );
+                    }
+                  },
+                ),
+              ),
+        );
+
+  AppDatabase.forTesting(DatabaseConnection super.connection);
 
   @override
   int get schemaVersion => 2;
@@ -21,12 +48,9 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
         }
       },
-    );
-  }
-
-  static QueryExecutor _openConnection() {
-    return driftDatabase(
-      name: 'todone_db',
+      beforeOpen: (details) async {
+        await impl.validateDatabaseSchema(this);
+      },
     );
   }
 
