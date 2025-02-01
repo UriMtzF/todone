@@ -20,5 +20,15 @@
       "delete": "Delete",
       "content": "Are you sure you want to delete all done tasks?"
     }
+  },
+  "editor": {
+    "editTask": "Edit task",
+    "createTask": "Create task",
+    "save": "Save",
+    "taskName": "Task name",
+    "taskDescription": "Task description",
+    "dueDate": "Due date",
+    "emptyTitle": "Title cannot be empty",
+    "longContent": "Max characters: $max"
   }
 }

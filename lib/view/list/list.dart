@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/view/list/editor.dart';
 import 'package:todone/view/list/todo_tile.dart';
 
 class TaskList extends StatefulWidget {
@@ -92,13 +93,14 @@ class _TaskListState extends State<TaskList> {
               bottom: 10,
               right: 10,
               child: FloatingActionButton(
-                onPressed: () async {
-                  await database.into(database.todoItems).insert(
-                        TodoItemsCompanion.insert(
-                          title: 'Otra tarea de prueba',
-                        ),
-                      );
-                  setState(() {});
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<Widget>(
+                      builder: (context) => TodoEditor(
+                        updateState: updateState,
+                      ),
+                    ),
+                  );
                 },
                 child: const Icon(Icons.add),
               ),

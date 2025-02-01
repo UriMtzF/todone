@@ -70,6 +70,16 @@ class AppDatabase extends _$AppDatabase {
     await (update(todoItems)..where((item) => item.id.equals(id)))
         .write(TodoItemsCompanion(completed: Value(!task.completed)));
   }
+
+  Future<void> addTodo(String title, String? body, DateTime? dueDate) async {
+    await into(todoItems).insert(
+      TodoItemsCompanion.insert(
+        title: title,
+        body: Value(body),
+        due: Value(dueDate?.toUtc()),
+      ),
+    );
+  }
 }
 
 final AppDatabase database = AppDatabase();

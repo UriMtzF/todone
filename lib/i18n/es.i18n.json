@@ -20,5 +20,15 @@
       "delete": "Eliminar",
       "content": "¿Estás seguro que deseas eliminar todas las tareas hechas?"
     }
+  },
+  "editor": {
+    "editTask": "Editar tarea",
+    "createTask": "Crear tarea",
+    "save": "Guardar",
+    "taskName": "Nombre de tarea",
+    "taskDescription": "Descripción",
+    "dueDate": "Fecha de vencimiento",
+    "emptyTitle": "El título no puede estar vacío",
+    "longContent": "Caracteres máximos: $max"
   }
 }
