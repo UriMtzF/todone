@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
 
@@ -26,6 +27,13 @@ class _TodoTileState extends State<TodoTile> {
 
   @override
   Widget build(BuildContext context) {
+    final dateFormat = DateFormat.yMMMMd(
+      context.t.$meta.locale.languageCode,
+    );
+    if (todoItem.due?.hour != 0 || todoItem.due?.minute != 0) {
+      dateFormat.add_jm();
+    }
+
     return Slidable(
       endActionPane: ActionPane(
         extentRatio: 0.1,
@@ -60,7 +68,8 @@ class _TodoTileState extends State<TodoTile> {
           ),
           title: Text(todoItem.title),
           subtitle: todoItem.due != null
-              ? Text('${context.t.list.dueDate}: ${todoItem.due}')
+              ? Text('${context.t.list.dueDate}:'
+                  ' ${dateFormat.format(todoItem.due!)}')
               : null,
         ),
       ),
