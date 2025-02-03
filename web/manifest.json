@@ -3,7 +3,7 @@
     "short_name": "ToDone",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#138c6e",
     "theme_color": "#0175C2",
     "description": "Another FOSS ToDo app",
     "orientation": "portrait-primary",
