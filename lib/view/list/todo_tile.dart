@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
+import 'package:todone/view/list/editor.dart';
 
 class TodoTile extends StatefulWidget {
   const TodoTile({
@@ -71,6 +72,22 @@ class _TodoTileState extends State<TodoTile> {
               ? Text('${context.t.list.dueDate}:'
                   ' ${dateFormat.format(todoItem.due!)}')
               : null,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<Widget>(
+                builder: (context) => TodoEditor(
+                  updateListState: widget.updateState,
+                  updateTileState: () async {
+                    final newTodo = await database.getTodo(todoItem.id);
+                    setState(() {
+                      todoItem = newTodo;
+                    });
+                  },
+                  todoItem: todoItem,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

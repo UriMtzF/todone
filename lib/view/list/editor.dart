@@ -4,9 +4,15 @@ import 'package:todone/database/database.dart';
 import 'package:todone/i18n/strings.g.dart';
 
 class TodoEditor extends StatefulWidget {
-  const TodoEditor({required this.updateState, this.todoItem, super.key});
+  const TodoEditor({
+    required this.updateListState,
+    this.todoItem,
+    this.updateTileState,
+    super.key,
+  });
   final TodoItem? todoItem;
-  final void Function() updateState;
+  final void Function() updateListState;
+  final void Function()? updateTileState;
 
   @override
   State<TodoEditor> createState() => _TodoEditorState();
@@ -27,6 +33,14 @@ class _TodoEditorState extends State<TodoEditor> {
   void initState() {
     super.initState();
     todoItem = widget.todoItem;
+    if (widget.todoItem != null) {
+      titleController.text = todoItem!.title;
+      bodyController.text = todoItem!.body ?? '';
+      dateTimeController = todoItem!.due;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setDateTimeValue();
+      });
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -65,7 +79,6 @@ class _TodoEditorState extends State<TodoEditor> {
 
   void setDateTimeValue() {
     if (dateTimeController != null) {
-      // Assign to a local variable to allow type promotion
       final controller = dateTimeController!;
       final dateFormat = DateFormat.yMMMMd(
         context.t.$meta.locale.languageCode,
@@ -97,14 +110,25 @@ class _TodoEditorState extends State<TodoEditor> {
                 onPressed: _isFormValid
                     ? () async {
                         if (formKey.currentState!.validate()) {
-                          await database.addTodo(
-                            titleController.text,
-                            bodyController.text,
-                            dateTimeController,
-                          );
+                          if (todoItem == null) {
+                            await database.addTodo(
+                              title: titleController.text,
+                              body: bodyController.text,
+                              dueDate: dateTimeController,
+                            );
+                          } else {
+                            await database.updateTodo(
+                              id: todoItem!.id,
+                              title: titleController.text,
+                              body: bodyController.text,
+                              dueDate: dateTimeController,
+                            );
+                          }
+
                           if (!context.mounted) return;
                           Navigator.of(context).pop();
-                          widget.updateState();
+                          widget.updateTileState?.call();
+                          widget.updateListState();
                         }
                       }
                     : null,

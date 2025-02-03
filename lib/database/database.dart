@@ -54,6 +54,10 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Future<TodoItem> getTodo(String id) async {
+    return (select(todoItems)..where((item) => item.id.equals(id))).getSingle();
+  }
+
   Future<void> deleteTodo(String id) async {
     await (delete(todoItems)..where((item) => item.id.equals(id))).go();
   }
@@ -71,12 +75,31 @@ class AppDatabase extends _$AppDatabase {
         .write(TodoItemsCompanion(completed: Value(!task.completed)));
   }
 
-  Future<void> addTodo(String title, String? body, DateTime? dueDate) async {
+  Future<void> addTodo({
+    required String title,
+    String? body,
+    DateTime? dueDate,
+  }) async {
     await into(todoItems).insert(
       TodoItemsCompanion.insert(
         title: title,
         body: Value(body),
         due: Value(dueDate?.toUtc()),
+      ),
+    );
+  }
+
+  Future<void> updateTodo({
+    required String id,
+    required String title,
+    String? body,
+    DateTime? dueDate,
+  }) async {
+    await (update(todoItems)..where((item) => item.id.equals(id))).write(
+      TodoItemsCompanion(
+        title: Value(title),
+        body: Value(body),
+        due: Value(dueDate),
       ),
     );
   }

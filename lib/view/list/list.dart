@@ -97,7 +97,7 @@ class _TaskListState extends State<TaskList> {
                   Navigator.of(context).push(
                     MaterialPageRoute<Widget>(
                       builder: (context) => TodoEditor(
-                        updateState: updateState,
+                        updateListState: updateState,
                       ),
                     ),
                   );
